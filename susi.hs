@@ -13,11 +13,16 @@ null' x
 
 --pembatas
 
-take' x = x
+take' _ [] = []
+take' 0 (x:xd) = []
+take' a (x:xd) = x : take' (a-1) xd
 
 --pembatas
 
-drop' x = x
+drop' _ [] = []
+drop' 0 (x:xd) = (x:xd)
+drop' a (x:xd) = drop' (a-1) xd
+
 
 --pembatas
 
@@ -29,15 +34,21 @@ snd' [x,xd] = xd
 
 --pembatas
 
-map' x = x
+map' f [] = []
+map' f (x:xd) = f x : map' f xd
 
 --pembatas
 
-filter' x = x
+filter' _ [] = []
 
 --pembatas
 
-delete' x = x
+delete' a [] = []
+delete' a (x:xd)
+  | a == x = xd
+  | otherwise = x : delete' a xd
+
+
 
 --pembatas
 
@@ -112,11 +123,15 @@ init' x = x
 
 --pembatas
 
-max' x = x
+max' x y
+  | x > y = x
+  | otherwise = y
 
 --pembatas
 
-min' x = x
+min' x y
+  | x < y = x
+  | otherwise = y
 
 --pembatas
 
@@ -133,7 +148,6 @@ intercalate' x = x
 --pembatas
 
 and' x = x
-
 --pembatas
 
 or' x = x
@@ -181,15 +195,25 @@ concatMap' x = x
 
 --pembatas
 
-all' x = x
+all' _ [] = True
+all' a (x:xd)
+  | a x == False = False
+  | otherwise = all' a xd
 
 --pembatas
 
-any' x = x
+any' _ [] = False
+any' a (x:xd)
+  | a x == True = True
+  | otherwise = any' a xd
 
 --pembatas
 
-insert' x = x
+insert' _ [] = []
+insert' a (x:xd)
+  | a <= x = a:x:xd
+  | otherwise = x : insert' a xd
+
 
 --pembatas
 
@@ -245,7 +269,9 @@ partition' x = x
 
 --pembatas
 
-replicate' x = x
+replicate' 0 _ = []
+replicate' a x = x : replicate' (a-1) x
+
 
 --pembatas
 -- First Assignment
