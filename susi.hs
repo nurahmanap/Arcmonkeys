@@ -103,7 +103,8 @@ head' [x,xd] = x
 
 --pembatas
 
-length' x = x
+length' [] = 0
+length' (x:xd) = 1 + (length' xd)
 
 --pembatas
 
@@ -122,7 +123,8 @@ tail' (x:xd) = xd
 
 --pembatas
 
-init' x = x
+init' [x] = []
+init' (x:xd) = x : init' xd
 
 --pembatas
 
@@ -180,7 +182,7 @@ product' (x:xd) = x * (product' (xd))
 
 --pembatas
 
-words' (x:xd) = [(x:xd)]
+--words' (x:xd) = [(x:xd)]
 
 --pembatas
 
