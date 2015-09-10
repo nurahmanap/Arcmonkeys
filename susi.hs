@@ -39,7 +39,7 @@ map' f (x:xd) = f x : map' f xd
 
 --pembatas
 
-filter' _ [] = []
+--filter' _ [] = []
 
 --pembatas
 
@@ -111,11 +111,14 @@ reverse' x = x
 
 --pembatas
 
-last' x = x
+last' [x] = x
+last' (x:xd) = last' xd
+
 
 --pembatas
 
-tail' x = x
+tail' [x] = []
+tail' (x:xd) = xd
 
 --pembatas
 
@@ -135,7 +138,9 @@ min' x y
 
 --pembatas
 
-concat' x = x
+concat' [[],[]] = []
+concat' [(a),(b)] = (a) ++ (b)
+
 
 --pembatas
 
@@ -147,10 +152,17 @@ intercalate' x = x
 
 --pembatas
 
-and' x = x
+and' [] = True
+and' (x:xd)
+  | x == True = and' xd
+  | otherwise = False
+
 --pembatas
 
-or' x = x
+or' [] = False
+or' (x:xd)
+  | x == False = or' xd
+  | otherwise = True
 
 --pembatas
 
@@ -165,13 +177,14 @@ sum' (x:xd) = x + (sum' xd)
 
 product' [] = 1
 product' (x:xd) = x * (product' (xd))
---pembatas
-
-words' x = x
 
 --pembatas
 
-lines' x = x
+words' (x:xd) = [(x:xd)]
+
+--pembatas
+
+lines' (x:xd) = [(x:xd)]
 
 --pembatas
 
@@ -183,11 +196,20 @@ unwords' x = x
 
 --pembatas
 
-takeWhile' x = x
+takeWhile' _ [] = []
+takeWhile' a (x:xd)
+  | a x == False = []
+  | a x == True = x : takeWhile' a xd
+  | otherwise = takeWhile' a xd
 
 --pembatas
 
-dropWhile' x = x
+dropWhile' _ [] = []
+dropWhile' a (x:xd)
+  | a x == False = (x:xd)
+  | a x == True = dropWhile' a xd
+  | otherwise = dropWhile' a xd
+
 
 --pembatas
 
