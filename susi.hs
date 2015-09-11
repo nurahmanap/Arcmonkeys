@@ -108,7 +108,8 @@ length' (x:xd) = 1 + (length' xd)
 
 --pembatas
 
-reverse' x = x
+reverse' [] = []
+reverse' (x:xd) = reverse' xd ++ [x]
 
 --pembatas
 
@@ -140,8 +141,8 @@ min' x y
 
 --pembatas
 
-concat' [[],[]] = []
-concat' [(a),(b)] = (a) ++ (b)
+--concat' [[],[]] = []
+--concat' [(a),(b)] = (a) ++ (b)
 
 
 --pembatas
@@ -255,19 +256,23 @@ sort' x = x
 
 --pembatas
 
-minimum' x = x
+minimum' [x] = x
+minimum' (x:xd) = min x (minimum' xd)
 
 --pembatas
 
-maximum' x = x
+maximum' [x] = x
+maximum' (x:xd) = max x (maximum' xd)
 
 --pembatas
 
-inits' x = x
+inits' [] = [[]]
+inits' (x:xd) = (x : init' xd) : [x:xd] ++ []
 
 --pembatas
 
-tails' x = x
+tails' [] = [[]]
+tails' (x:xd) = (x:xd) : tails' xd
 
 --pembatas
 
