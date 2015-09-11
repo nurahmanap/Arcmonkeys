@@ -39,7 +39,12 @@ map' f (x:xd) = f x : map' f xd
 
 --pembatas
 
---filter' _ [] = []
+filter' _ [] = []
+filter' a [x]
+  | a x == True = []
+filter' a (x:xd)
+  | a x == True = x : filter' a xd
+  | otherwise = filter' a xd
 
 --pembatas
 
@@ -47,8 +52,6 @@ delete' a [] = []
 delete' a (x:xd)
   | a == x = xd
   | otherwise = x : delete' a xd
-
-
 
 --pembatas
 
@@ -64,11 +67,16 @@ foldl1' x = x
 
 --pembatas
 
-zip' x = x
+zip' _ [] = []
+zip' [] _ = []
+zip' (x:xd) (y:yd) = [(x,y)] ++ zip' (xd)(yd)
 
 --pembatas
 
-zipWith' x = x
+zipWith' a [] (y:yd) = []
+zipWith' a (x:xd) [] = []
+zipWith' a [] [] = []
+zipWith' a (x:xd) (y:yd) = [a x y] ++ zipWith' a xd yd
 
 --pembatas
 
@@ -76,7 +84,9 @@ nth' x = x
 
 --pembatas
 
-scanl' x = x
+scanl'' a y [] = [y]
+scanl'' a y [c,d] = scanl'' a y [] ++ [a y c] ++ [a (a y c) d]
+scanl'' a y (x:xd) = scanl'' a y [] ++ scanl'' a (a y x) xd
 
 --pembatas
 
@@ -169,14 +179,17 @@ or' (x:xd)
 
 --pembatas
 
-zip3' x = x
+zip3' _ _ [] = []
+zip3' _ [] _ = []
+zip3' [] _ _ = []
+zip3' (x:xd) (y:yd) (z:zd)= [(x,y,z)] ++ zip3' (xd)(yd)(zd)
 
 --pembatas
 
 sum' [] = 0
 sum' (x:xd) = x + (sum' xd)
 
---pembatas
+x--pembatas
 
 product' [] = 1
 product' (x:xd) = x * (product' (xd))
@@ -284,9 +297,9 @@ intersect' x = x
 
 --pembatas
 
-group' [] = [[]]
-group' [x] = [[x]]
-group' (x:xs) = [[x]] ++ group' xs
+--group' [] = [[]]
+--group' [x] = [[x]]
+--group' (x:xs) = [[x]] ++ group' xs
 
 --pembatas
 
