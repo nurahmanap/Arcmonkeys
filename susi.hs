@@ -55,11 +55,15 @@ delete' a (x:xd)
 
 --pembatas
 
-deleteAll' x = x
+deleteAll' a [] = []
+deleteAll' a (x:xd)
+  | a == x = deleteAll' a xd
+  | otherwise = x : deleteAll' a xd
 
 --pembatas
 
-foldl' x = x
+foldl'' a n [] = n
+foldl'' a n (x:xd) = a (foldl'' a (n) (xd)) x
 
 --pembatas
 
@@ -80,7 +84,8 @@ zipWith' a (x:xd) (y:yd) = [a x y] ++ zipWith' a xd yd
 
 --pembatas
 
-nth' x = x
+nth' (x:xd) 0 = x
+nth' (x:xd) a = nth' xd (a-1)
 
 --pembatas
 
@@ -90,7 +95,10 @@ scanl'' a y (x:xd) = scanl'' a y [] ++ scanl'' a (a y x) xd
 
 --pembatas
 
-scanl1' x = x
+
+scanl1' a [] = []
+scanl1' a [x] = [x]
+scanl1' a (x:y:xd) = [x] ++ scanl1' a ((a x (head xd)): tail xd)
 
 --pembatas
 
@@ -151,13 +159,16 @@ min' x y
 
 --pembatas
 
---concat' [[],[]] = []
---concat' [(a),(b)] = (a) ++ (b)
-
+concat' [[],[]] = []
+concat' [x] = x
+concat' (x:xd) = x ++ concat' xd
 
 --pembatas
 
-intersperse' x = x
+intersperse' a [] = []
+intersperse' a [x] = [x]
+intersperse' a (x:xd) = x : a : intersperse' a (xd)
+
 
 --pembatas
 
@@ -200,7 +211,7 @@ product' (x:xd) = x * (product' (xd))
 
 --pembatas
 
-lines' (x:xd) = [(x:xd)]
+--lines' (x:xd) = [(x:xd)]
 
 --pembatas
 
@@ -255,13 +266,18 @@ insert' a (x:xd)
 
 --pembatas
 
-zipWith3' x = x
+zipWith3' a [] [] [] = []
+zipWith3' a [] (y:yd) (z:zd) = []
+zipWith3' a (x:xd) [] (z:zd) = []
+zipWith3' a (x:xd) (y:yd) [] = []
+zipWith3' a (x:xd) (y:yd) (z:zd) = [a x y z] ++ zipWith3' a xd yd zd
+
 
 --pembatas
 
 -- 1.b
-
-nub' x = x
+nub' [] = []
+nub' (x:xd) = x : nub' (deleteAll' x (x:xd))
 
 --pembatas
 
@@ -280,7 +296,7 @@ maximum' (x:xd) = max x (maximum' xd)
 --pembatas
 
 inits' [] = [[]]
-inits' (x:xd) = (x : init' xd) : [x:xd] ++ []
+inits' (x:xd) = inits'(init' (x:xd)) ++ [(x:xd)]
 
 --pembatas
 
@@ -297,17 +313,22 @@ intersect' x = x
 
 --pembatas
 
---group' [] = [[]]
---group' [x] = [[x]]
---group' (x:xs) = [[x]] ++ group' xs
+group' x = x
 
 --pembatas
 
-splitAt' x = x
+splitAt' a (x:xd) = ((take' a (x:xd)),(drop' a (x:xd)))
+
 
 --pembatas
 
-partition' x = x
+partition' a [] = ([],[])
+partition' a (x:xd) = (filter' a (x:xd) , lawanfilter' a (x:xd))
+  where lawanfilter' _ [] = []
+        lawanfilter' a (x:xd)
+          | a x == False = x : lawanfilter' a xd
+          | otherwise = lawanfilter' a xd
+
 
 --pembatas
 
